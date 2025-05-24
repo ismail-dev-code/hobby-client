@@ -23,7 +23,7 @@ const Edit = () => {
     // Fetch group data by ID
     const fetchGroupData = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/all-group/${id}`);
+        const res = await fetch(`https://hobby-server-sigma.vercel.app/all-group/${id}`);
         const data = await res.json();
         setFormData(data);
       } catch (err) {
@@ -49,7 +49,7 @@ const Edit = () => {
     };
 
     try {
-      const response = await fetch(`http://localhost:5000/all-group/${id}`, {
+      const response = await fetch(`https://hobby-server-sigma.vercel.app/all-group/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

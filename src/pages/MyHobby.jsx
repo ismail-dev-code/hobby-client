@@ -14,7 +14,7 @@ const MyHobby = () => {
   const fetchHobbies = () => {
     if (!user?.email) return;
 
-    fetch(`http://localhost:5000/my-groups?email=${user.email}`)
+    fetch(`https://hobby-server-sigma.vercel.app/my-groups?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         setMyHobbies(data);
@@ -42,7 +42,7 @@ const MyHobby = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/all-group/${id}`, {
+        fetch(`https://hobby-server-sigma.vercel.app/all-group/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

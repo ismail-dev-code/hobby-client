@@ -31,7 +31,7 @@ const CreateHobby = () => {
   };
 
   try {
-    const response = await fetch('http://localhost:5000/create-group', {
+    const response = await fetch('https://hobby-server-sigma.vercel.app/create-group', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ const AllHobby = () => {
   const [hobbies, setHobbies] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/all-group")
+    fetch("https://hobby-server-sigma.vercel.app/all-group")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -24,7 +24,9 @@ const AllHobby = () => {
     <>
       <Navbar />
       <div className="p-4 w-10/12 mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-center md:mb-12">All Hobbies</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center md:mb-12">
+          All Hobbies
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {hobbies.map((hobby) => (
             <div
