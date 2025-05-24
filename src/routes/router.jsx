@@ -10,6 +10,7 @@ import RegisterForm from "../pages/RegisterForm";
 import CurrencyConverter from "../pages/CurrencyConverter";
 import PrivateRoute from "../provider/PrivateRoute";
 import ChatMe from "../pages/utilities/ChatMe";
+import Edit from "../pages/Edit";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -25,6 +26,8 @@ export const router = createBrowserRouter([
   { path: "/login", element: <LoginForm /> },
   { path: "/register", element: <RegisterForm /> },
   { path: "/chat-me", element: <ChatMe /> },
+  { path: "/update-group/:id", element: <Edit /> },
+
   {
     path: "/currency-converter",
     element: (
