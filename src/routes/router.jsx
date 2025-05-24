@@ -21,8 +21,22 @@ export const router = createBrowserRouter([
     ],
   },
   { path: "/all-hobby", element: <AllHobby /> },
-  { path: "/create-hobby", element: <CreateHobby /> },
-  { path: "/my-hobby", element: <MyHobby /> },
+  {
+    path: "/create-hobby",
+    element: (
+      <PrivateRoute>
+        <CreateHobby />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/my-hobby",
+    element: (
+      <PrivateRoute>
+        <MyHobby />
+      </PrivateRoute>
+    ),
+  },
   { path: "/login", element: <LoginForm /> },
   { path: "/register", element: <RegisterForm /> },
   { path: "/chat-me", element: <ChatMe /> },
@@ -30,10 +44,6 @@ export const router = createBrowserRouter([
 
   {
     path: "/currency-converter",
-    element: (
-      <PrivateRoute>
-        <CurrencyConverter />
-      </PrivateRoute>
-    ),
+    element: <CurrencyConverter />,
   },
 ]);
