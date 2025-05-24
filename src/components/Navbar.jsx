@@ -77,6 +77,26 @@ const Navbar = () => {
           >
             Create Hobby
           </NavLink>
+          <NavLink
+            to="/currency-converter"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-600 dark:text-blue-400 font-semibold"
+                : "hover:text-blue-600 transition"
+            }
+          >
+            Currency Converter
+          </NavLink>
+          <NavLink
+            to="/chat-me"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-600 dark:text-blue-400 font-semibold"
+                : "hover:text-blue-600 transition"
+            }
+          >
+            Chat Me
+          </NavLink>
         </nav>
 
         <div className="flex items-center gap-3">

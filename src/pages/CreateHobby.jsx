@@ -21,35 +21,57 @@ const CreateHobby = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const hobbyData = {
-      ...formData,
-      userName: user?.displayName || '',
-      userEmail: user?.email || ''
-    };
+  const hobbyData = {
+    ...formData,
+    userName: user?.displayName || '',
+    userEmail: user?.email || ''
+  };
 
-    console.log('Submitted Hobby Data:', hobbyData);
+  try {
+    const response = await fetch('http://localhost:5000/create-group', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(hobbyData),
+    });
 
+    const data = await response.json();
+
+    if (response.ok) {
+      Swal.fire({
+        title: 'Hobby Created!',
+        text: 'Your hobby group has been successfully created.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+
+      setFormData({
+        groupName: '',
+        category: '',
+        description: '',
+        location: '',
+        maxMembers: '',
+        endDate: '',
+        imageUrl: ''
+      });
+    } else {
+      throw new Error(data.message || 'Failed to create hobby group');
+    }
+  } catch (error) {
+    console.error('Error:', error);
     Swal.fire({
-      title: 'Hobby Created!',
-      text: 'Your hobby group has been successfully created.',
-      icon: 'success',
+      title: 'Error!',
+      text: 'Something went wrong while creating the hobby group.',
+      icon: 'error',
       confirmButtonText: 'OK',
     });
+  }
+};
 
- 
-    setFormData({
-      groupName: '',
-      category: '',
-      description: '',
-      location: '',
-      maxMembers: '',
-      endDate: '',
-      imageUrl: ''
-    });
-  };
 
   return (
     <>

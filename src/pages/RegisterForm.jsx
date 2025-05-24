@@ -2,17 +2,15 @@ import React, { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 import Navbar from "../components/Navbar";
-
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 
 const RegisterForm = () => {
   const { createUser, setUser, updateUser, signInWithGoogle } = useContext(AuthContext);
-  const [nameError, setNameError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
@@ -20,48 +18,63 @@ const RegisterForm = () => {
     const email = form.email.value;
     const password = form.password.value;
 
+    // Name validation with SweetAlert
     if (name.length < 5) {
-      setNameError("Name should be more than 5 characters.");
+      Swal.fire({
+        icon: "warning",
+        title: "Oops...",
+        text: "Name should be more than 5 characters.",
+      });
       return;
-    } else {
-      setNameError("");
     }
 
+    // Password validation
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!passwordRegex.test(password)) {
-      toast.warning(
-        "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
-      );
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid Password",
+        text: "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long.",
+      });
       return;
     }
 
-    createUser(email, password)
-      .then((result) => {
-        const user = result.user;
-        updateUser({ displayName: name, photoURL: photo })
-          .then(() => {
-            setUser({ ...user, displayName: name, photoURL: photo });
-            navigate("/");
-          })
-          .catch((error) => {
-            toast.error(error.message);
-          });
-      })
-      .catch((error) => {
-        toast.error(error.message);
+    try {
+      const result = await createUser(email, password);
+      const user = result.user;
+
+      await updateUser({ displayName: name, photoURL: photo });
+      setUser({ ...user, displayName: name, photoURL: photo });
+
+      Swal.fire({
+        icon: "success",
+        title: "Registered Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
       });
+
+      navigate("/");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: error.message,
+      });
+    }
   };
 
-  const handleGoogleLogin = () => {
-    signInWithGoogle()
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        navigate(location.state || "/");
-      })
-      .catch((error) => {
-        toast.error(error.message);
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithGoogle();
+      setUser(result.user);
+      navigate(location.state || "/");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Google Login Failed",
+        text: error.message,
       });
+    }
   };
 
   return (
@@ -79,7 +92,6 @@ const RegisterForm = () => {
           <form onSubmit={handleRegister}>
             <label className="label">Full Name</label>
             <input type="text" name="name" required className="input" placeholder="Your Name" />
-            {nameError && <span className="text-red-600">{nameError}</span>}
 
             <label className="label">Photo URL</label>
             <input type="url" name="photo" required className="input" placeholder="Photo URL" />
@@ -123,8 +135,6 @@ const RegisterForm = () => {
           </p>
         </div>
       </div>
-
- 
     </>
   );
 };

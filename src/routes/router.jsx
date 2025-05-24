@@ -7,6 +7,9 @@ import CreateHobby from "../pages/CreateHobby";
 import MyHobby from "../pages/MyHobby";
 import LoginForm from "../pages/LogInForm";
 import RegisterForm from "../pages/RegisterForm";
+import CurrencyConverter from "../pages/CurrencyConverter";
+import PrivateRoute from "../provider/PrivateRoute";
+import ChatMe from "../pages/utilities/ChatMe";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -21,4 +24,13 @@ export const router = createBrowserRouter([
   { path: "/my-hobby", element: <MyHobby /> },
   { path: "/login", element: <LoginForm /> },
   { path: "/register", element: <RegisterForm /> },
+  { path: "/chat-me", element: <ChatMe /> },
+  {
+    path: "/currency-converter",
+    element: (
+      <PrivateRoute>
+        <CurrencyConverter />
+      </PrivateRoute>
+    ),
+  },
 ]);
